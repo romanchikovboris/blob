@@ -326,14 +326,14 @@ namespace Obi
                 Array.Sort<int>(sortedIndices, (a, b) => sqrDistanceToCamera[b].CompareTo(sqrDistanceToCamera[a]));
 
                 // render modes OnSceneRepaint:
-                for (int i = 0; i < renderModes.Count; ++i)
+                for (int i = 0; i < renderModes.Count; ++i)   
                 {
                     if ((1 << i & renderModeFlags) != 0)
                         renderModes[i].OnSceneRepaint(sceneView);
                 }
-
+   
                 // property OnSceneRepaint:
-                currentProperty.OnSceneRepaint();
+                currentProperty?.OnSceneRepaint();
 
                 // update particle color based on visiblity, etc.
                 UpdateTintColor();
@@ -341,7 +341,7 @@ namespace Obi
                 // Draw particle handles:
                 ObiParticleEditorDrawing.DrawParticles(sceneView.camera, blueprint, activeParticle, visible, tint, sortedIndices, dotRadiusScale);
 
-            }
+            } 
 
             if (currentTool != null)
                 currentTool.OnSceneGUI(sceneView);
@@ -413,7 +413,7 @@ namespace Obi
 
         public void Refresh()
         {
-            currentProperty.RecalculateMinMax();
+            currentProperty?.RecalculateMinMax();
 
             // refresh render modes:
             for (int i = 0; i < renderModes.Count; ++i)
