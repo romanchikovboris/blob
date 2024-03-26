@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 namespace BlobGame
@@ -6,7 +7,14 @@ namespace BlobGame
     {
         public override void InstallBindings()
         {
+            Debug.Log("install");
             
+#if UNITY_EDITOR
+            Container.Bind<IInputService>().To<StandaloneInputService>().AsSingle();
+#else
+            Container.Bind<IInputService>().To<MobileInputService>().AsSingle();
+#endif
+
         }
     }
 }

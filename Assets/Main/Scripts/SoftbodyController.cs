@@ -1,20 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BlobGame;
 using UnityEngine;
 using Obi;
+using Zenject;
 
 [RequireComponent(typeof(ObiSoftbody))]
 public class SoftbodyController : MonoBehaviour
 {
-    public Transform referenceFrame;
+    //TODO: move to player movement settings
     public float acceleration = 80;
     public float jumpPower = 1;
 
     [Range(0,1)]
     public float airControl = 0.3f;
+    
+    [SerializeField]
+    private Transform _camera;
+    
+    private ObiSoftbody softbody;
+    private bool onGround = false;
+    private IInputService _inputService;
 
-    ObiSoftbody softbody;
-    bool onGround = false;
+    [Inject]
+    private void Construct(IInputService inputService)
+    {
+        _inputService = inputService;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +43,17 @@ public class SoftbodyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (referenceFrame != null)
+        if (_camera != null)
         {
             Vector3 direction = Vector3.zero;
+            if (_inputService.Axis.sqrMagnitude > Mathf.Epsilon)
+            {
+                direction = _camera.transform.TransformDirection(_inputService.Axis) * acceleration;
+                direction.y = 0;
+                direction.Normalize();
+            }
 
-            // Determine movement direction:
+            /*// Determine movement direction:
             if (Input.GetKey(KeyCode.W))
             {
                 direction += referenceFrame.forward * acceleration;
@@ -54,7 +72,7 @@ public class SoftbodyController : MonoBehaviour
             }
 
             // flatten out the direction so that it's parallel to the ground:
-            direction.y = 0;
+            direction.y = 0;*/
 
             // apply ground/air movement:
             float effectiveAcceleration = acceleration;
