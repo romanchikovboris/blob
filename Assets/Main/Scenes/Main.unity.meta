@@ -1,5 +1,7 @@
 fileFormatVersion: 2
-guid: 9fc0d4010bbf28b4594072e72b8655ab
+guid: a547a3486543e324b9a695bbf136d2e2
+labels:
+- ObiSoftbody
 DefaultImporter:
   externalObjects: {}
   userData: 

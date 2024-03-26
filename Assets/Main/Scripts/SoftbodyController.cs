@@ -81,7 +81,6 @@ public class SoftbodyController : MonoBehaviour
         foreach (Oni.Contact contact in e.contacts)
         {
             // look for actual contacts only:
-            if (contact.distance > 0.01)
             {
                 var col = world.colliderHandles[contact.bodyB].owner;
                 if (col != null)
