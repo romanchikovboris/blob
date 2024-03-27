@@ -5,10 +5,13 @@ namespace BlobGame
 {
     public class ProjectInstaller : MonoInstaller
     {
+        [SerializeField]
+        private GameConfig _gameConfig;
+        
         public override void InstallBindings()
         {
-            Debug.Log("install");
-            
+            Container.Bind<GameConfig>().FromInstance(_gameConfig).AsSingle().NonLazy();
+
 #if UNITY_EDITOR
             Container.Bind<IInputService>().To<StandaloneInputService>().AsSingle();
 #else

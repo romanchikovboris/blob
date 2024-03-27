@@ -48,7 +48,10 @@ public class ObstacleCourseController : MonoBehaviour
                 // teleporting the camera so that the cam works with up to date COM.
                 softbodyCOM.Update();
 
-				Camera.main.GetComponent<ExtrapolationCamera>().Teleport(cameraSpawnPoint.position, cameraSpawnPoint.rotation);
+                if (Camera.main.TryGetComponent<ExtrapolationCamera>(out var cam))
+                {
+                    cam.Teleport(cameraSpawnPoint.position, cameraSpawnPoint.rotation);
+                }
 
 				onRestart.Invoke();
             }
