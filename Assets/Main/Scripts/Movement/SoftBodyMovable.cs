@@ -20,7 +20,6 @@ namespace BlobGame
 
         private void Start()
         {
-            _softBody = GetComponent<ObiSoftbody>();
             _softBody.solver.OnCollision += Solver_OnCollision;
         }
 
