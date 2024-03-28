@@ -38,12 +38,12 @@ namespace BlobGame
 
             _softBody.AddForce(dir * effectiveAcceleration, ForceMode.Force);
 
-            // jump:
+            /*// jump:
             if (onGround && Input.GetKeyDown(KeyCode.Space))
             {
                 onGround = false;
-                _softBody.AddForce(Vector3.up * gameConfig.JumpPower, ForceMode.VelocityChange);
-            }
+                _softBody.AddForce(Vector3.up * 5f, ForceMode.VelocityChange);
+            }*/
         }
         
         private void Solver_OnCollision(ObiSolver solver, ObiSolver.ObiCollisionEventArgs e)

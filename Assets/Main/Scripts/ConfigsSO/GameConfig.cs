@@ -7,9 +7,10 @@ namespace BlobGame
     {
         [Header("Ball movement")]
         public float Acceleration = 7f;
-
         public float AirControl = 0.2f;
 
-        public float JumpPower = 5f;
+        [Header("Merge")]
+        public float MergeAnimationYOffset = 1f;
+        public float MergeAnimationTime = 0.5f;
     }
 }

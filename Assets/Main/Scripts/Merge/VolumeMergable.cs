@@ -1,5 +1,7 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 namespace BlobGame
 {
@@ -16,6 +18,7 @@ namespace BlobGame
         private Rigidbody _myRigidbody;
 
         private bool _isMerged;
+        private GameConfig _gameConfig;
 
         private void OnValidate()
         {
@@ -33,6 +36,12 @@ namespace BlobGame
             {
                 _myRigidbody = rb;
             }
+        }
+
+        [Inject]
+        private void Construct(GameConfig gameConfig)
+        {
+            _gameConfig = gameConfig;
         }
 
         public void Interact(MonoBehaviour interactionInvoker)
@@ -71,16 +80,30 @@ namespace BlobGame
             
                 if(_myRigidbody != null)
                     _myRigidbody.isKinematic = true;
-            
-                //animation?
-                Destroy(gameObject, 3f);
+
+                var animateSequence = AnimateMerged();
+                animateSequence.OnComplete(() =>
+                {
+                    Destroy(gameObject, 3f);
+                });
             }
             else
             {
                 Debug.LogError($"Can be merged with {interactor.gameObject.name}, Add Merger script to it!");
             }
         }
-        
-        
+
+        private Sequence AnimateMerged()
+        {
+            var sequence = DOTween.Sequence();
+
+            var animationUpOffset = transform.position + Vector3.up * _gameConfig.MergeAnimationYOffset;
+            var moveTween = transform.DOMove(animationUpOffset, _gameConfig.MergeAnimationTime);
+            var scaleTween = transform.DOScale(0f, _gameConfig.MergeAnimationTime);
+
+            sequence.Append(moveTween).Join(scaleTween);
+
+            return sequence;
+        }
     }
 }
