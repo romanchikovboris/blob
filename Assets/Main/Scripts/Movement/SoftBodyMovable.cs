@@ -36,7 +36,7 @@ namespace BlobGame
             if (!onGround)
                 effectiveAcceleration *= gameConfig.AirControl;
 
-            _softBody.AddForce(dir * effectiveAcceleration, ForceMode.Acceleration);
+            _softBody.AddForce(dir * effectiveAcceleration, ForceMode.Force);
 
             // jump:
             if (onGround && Input.GetKeyDown(KeyCode.Space))

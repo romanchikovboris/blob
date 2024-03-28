@@ -17,9 +17,22 @@ namespace BlobGame
         [SerializeField]
         private ObiSoftbody _ball;
 
-        private void FixedUpdate()
+        /*private void Start()
         {
-            
+            _ball.SetMass(3f);
+        }*/
+
+        [ContextMenu("SetMass")]
+        public void SETMASS()
+        {
+            _ball.SetMass(_scaleFactor);
+            _ball.UpdateParticleProperties();
+        }
+
+        /*private void FixedUpdate()
+        {
+            Debug.Log($"Mass now: {_ball.GetMass(out var _)}");
+
             if (Input.GetKeyDown(KeyCode.B))
             {
                 ScaleTo(_scaleFactor);
@@ -32,14 +45,22 @@ namespace BlobGame
             
             if (Input.GetKeyDown(KeyCode.Z))
             {
+                Debug.Log($"Mass now: {_ball.GetMass(out var _)}");
+                
                 StartCoroutine(SmoothScale(1));
+                
+                Debug.Log($"Mass now: {_ball.GetMass(out var _)}");
             }
             
             if (Input.GetKeyDown(KeyCode.X))
             {
+                Debug.Log($"Mass now: {_ball.GetMass(out var _)}");
+
                 StartCoroutine(SmoothScale(_scaleFactor));
+                
+                Debug.Log($"Mass now: {_ball.GetMass(out var _)}");
             }
-        }
+        }*/
 
         private IEnumerator SmoothScale(float targetScale)
         {
@@ -56,8 +77,10 @@ namespace BlobGame
                 var scaleFactor = Mathf.Lerp(startScale, targetScale, t);
                 ScaleTo(scaleFactor);
                 
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
+            
+            _ball.SetMass(targetScale);
         }
 
         [ContextMenu("TEST")]

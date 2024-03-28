@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BlobGame
 {
@@ -24,6 +23,13 @@ namespace BlobGame
             }
         }
 
+        [ContextMenu("Debug Volume")]
+        public void DebugVolume()
+        {
+            var volume = GetVolume();
+            Debug.Log($"Object {gameObject.name} volume is: {volume}");
+        }
+        
         public float GetVolume()
         {
             if (_cachedVolume == 0)
@@ -31,7 +37,9 @@ namespace BlobGame
                 _cachedVolume = VolumeOfMesh(_mesh);
             }
 
-            return _cachedVolume * Mathf.Abs(transform.localScale.x);
+            //calculate volume with respect of own + parent scale
+            var parentScale = transform.parent? transform.parent.transform.localScale.x : 1f;
+            return _cachedVolume * Mathf.Abs(transform.localScale.x) * parentScale;
         }
 
         private float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
