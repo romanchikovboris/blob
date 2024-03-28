@@ -80,5 +80,7 @@ namespace BlobGame
                 Debug.LogError($"Can be merged with {interactor.gameObject.name}, Add Merger script to it!");
             }
         }
+        
+        
     }
 }
